@@ -1,5 +1,5 @@
 {
-  "name": "ocbc-login-bot",
+  "name": "ocbc-full-system",
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {

